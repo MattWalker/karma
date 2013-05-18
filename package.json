@@ -62,7 +62,7 @@
     "chokidar": "~0.6",
     "glob": "~3.1.21",
     "minimatch": "~0.2",
-    "http-proxy": "~0.10",
+    "http-proxy": "git://github.com/jayv/node-http-proxy.git",
     "optimist": "0.3.5",
     "coffee-script": "~1.6",
     "xmlbuilder": "0.4.2",
