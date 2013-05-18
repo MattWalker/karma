@@ -102,6 +102,9 @@
   "bin": {
     "karma": "./bin/karma"
   },
+  "scripts": {
+    "postinstall": "grunt build"
+  },
   "engines": {
     "node": "~0.8 || ~0.10"
   },
