@@ -12441,7 +12441,7 @@ function $AnimationProvider($provide) {
    *
    * @param {string} name The name of the animation.
    * @param {function} factory The factory function that will be executed to return the animation object.
-   * 
+   *
    */
   this.register = function(name, factory) {
     $provide.factory(camelCase(name) + suffix, factory);
@@ -12633,7 +12633,7 @@ var $AnimatorProvider = function() {
         var ngAnimateAttr = attrs.ngAnimate;
         var ngAnimateValue = ngAnimateAttr && scope.$eval(ngAnimateAttr);
         var animator = {};
-  
+
         /**
          * @ngdoc function
          * @name ng.animator#enter
@@ -12648,7 +12648,7 @@ var $AnimatorProvider = function() {
          * @param {jQuery/jqLite element} after the sibling element (which is the previous element) of the element that will be the focus of the enter animation
         */
         animator.enter = animateActionFactory('enter', insert, noop);
-  
+
         /**
          * @ngdoc function
          * @name ng.animator#leave
@@ -12662,7 +12662,7 @@ var $AnimatorProvider = function() {
          * @param {jQuery/jqLite element} parent the parent element of the element that will be the focus of the leave animation
         */
         animator.leave = animateActionFactory('leave', noop, remove);
-  
+
         /**
          * @ngdoc function
          * @name ng.animator#move
@@ -12678,7 +12678,7 @@ var $AnimatorProvider = function() {
          * @param {jQuery/jqLite element} after the sibling element (which is the previous element) of the element that will be the focus of the move animation
         */
         animator.move = animateActionFactory('move', move, noop);
-  
+
         /**
          * @ngdoc function
          * @name ng.animator#show
@@ -12691,7 +12691,7 @@ var $AnimatorProvider = function() {
          * @param {jQuery/jqLite element} element the element that will be rendered visible or hidden
         */
         animator.show = animateActionFactory('show', show, noop);
-  
+
         /**
          * @ngdoc function
          * @name ng.animator#hide
@@ -12704,16 +12704,16 @@ var $AnimatorProvider = function() {
         */
         animator.hide = animateActionFactory('hide', noop, hide);
         return animator;
-  
+
         function animateActionFactory(type, beforeFn, afterFn) {
           var className = ngAnimateAttr
               ? isObject(ngAnimateValue) ? ngAnimateValue[type] : ngAnimateValue + '-' + type
               : '';
           var animationPolyfill = $animation(className);
-  
+
           var polyfillSetup = animationPolyfill && animationPolyfill.setup;
           var polyfillStart = animationPolyfill && animationPolyfill.start;
-  
+
           if (!className) {
             return function(element, parent, after) {
               beforeFn(element, parent, after);
@@ -12722,7 +12722,7 @@ var $AnimatorProvider = function() {
           } else {
             var setupClass = className + '-setup';
             var startClass = className + '-start';
-  
+
             return function(element, parent, after) {
               if (!parent) {
                 parent = after ? after.parent() : element.parent();
@@ -12738,13 +12738,13 @@ var $AnimatorProvider = function() {
               element.addClass(setupClass);
               beforeFn(element, parent, after);
               if (element.length == 0) return done();
-  
+
               var memento = (polyfillSetup || noop)(element);
-  
+
               // $window.setTimeout(beginAnimation, 0); this was causing the element not to animate
               // keep at 1 for animation dom rerender
               $window.setTimeout(beginAnimation, 1);
-  
+
               function beginAnimation() {
                 element.addClass(startClass);
                 if (polyfillStart) {
@@ -12752,7 +12752,7 @@ var $AnimatorProvider = function() {
                 } else if (isFunction($window.getComputedStyle)) {
                   var vendorTransitionProp = $sniffer.vendorPrefix + 'Transition';
                   var w3cTransitionProp = 'transition'; //one day all browsers will have this
-  
+
                   var durationKey = 'Duration';
                   var duration = 0;
                   //we want all the styles defined before and after
@@ -12769,7 +12769,7 @@ var $AnimatorProvider = function() {
                   done();
                 }
               }
-  
+
               function done() {
                 afterFn(element, parent, after);
                 element.removeClass(setupClass);
@@ -12779,15 +12779,15 @@ var $AnimatorProvider = function() {
             }
           }
         }
-  
+
         function show(element) {
           element.css('display', '');
         }
-  
+
         function hide(element) {
           element.css('display', 'none');
         }
-  
+
         function insert(element, parent, after) {
           if (after) {
             after.after(element);
@@ -12795,11 +12795,11 @@ var $AnimatorProvider = function() {
             parent.append(element);
           }
         }
-  
+
         function remove(element) {
           element.remove();
         }
-  
+
         function move(element, parent, after) {
           // Do not remove element before insert. Removing will cause data associated with the
           // element to be dropped. Insert will implicitly do the remove.
@@ -15554,7 +15554,7 @@ function $LocationProvider(){
 function $LogProvider(){
   var debug = true,
       self = this;
-  
+
   /**
    * @ngdoc property
    * @name ng.$logProvider#debugEnabled
@@ -15571,7 +15571,7 @@ function $LogProvider(){
 		  return debug;
 	  }
   };
-  
+
   this.$get = ['$window', function($window){
     return {
       /**
@@ -15613,18 +15613,18 @@ function $LogProvider(){
        * Write an error message
        */
       error: consoleLog('error'),
-      
+
       /**
        * @ngdoc method
        * @name ng.$log#debug
        * @methodOf ng.$log
-       * 
+       *
        * @description
        * Write a debug message
        */
       debug: (function () {
     	var fn = consoleLog('debug');
-    	
+
     	return function() {
     		if (debug) {
     			fn.apply(self, arguments);
@@ -16696,25 +16696,25 @@ function $ParseProvider() {
  *   you can treat promises attached to a scope as if they were the resulting values.
  * - Q has many more features that $q, but that comes at a cost of bytes. $q is tiny, but contains
  *   all the important functionality needed for common async tasks.
- * 
+ *
  *  # Testing
- * 
+ *
  *  <pre>
  *    it('should simulate promise', inject(function($q, $rootScope) {
  *      var deferred = $q.defer();
  *      var promise = deferred.promise;
  *      var resolvedValue;
- * 
+ *
  *      promise.then(function(value) { resolvedValue = value; });
  *      expect(resolvedValue).toBeUndefined();
- * 
+ *
  *      // Simulate resolving of promise
  *      deferred.resolve(123);
  *      // Note that the 'then' function does not get called synchronously.
  *      // This is because we want the promise API to always be async, whether or not
  *      // it got called synchronously or asynchronously.
  *      expect(resolvedValue).toBeUndefined();
- * 
+ *
  *      // Propagate promise resolution to 'then' functions using $apply().
  *      $rootScope.$apply();
  *      expect(resolvedValue).toEqual(123);
@@ -18902,7 +18902,7 @@ function $HttpProvider() {
      *
      * A custom default cache built with $cacheFactory can be provided in $http.defaults.cache.
      * To skip it, set configuration property `cache` to `false`.
-     * 
+     *
      *
      * # Interceptors
      *
@@ -19435,8 +19435,8 @@ function $HttpProvider() {
 
 
       if ((config.cache || defaults.cache) && config.cache !== false && config.method == 'GET') {
-        cache = isObject(config.cache) ? config.cache 
-              : isObject(defaults.cache) ? defaults.cache 
+        cache = isObject(config.cache) ? config.cache
+              : isObject(defaults.cache) ? defaults.cache
               : defaultCache;
       }
 
@@ -20402,7 +20402,7 @@ var DATE_FORMATS = {
      m: dateGetter('Minutes', 1),
     ss: dateGetter('Seconds', 2),
      s: dateGetter('Seconds', 1),
-     // while ISO 8601 requires fractions to be prefixed with `.` or `,` 
+     // while ISO 8601 requires fractions to be prefixed with `.` or `,`
      // we can be just safely rely on using `sss` since we currently don't support single or two digit fractions
    sss: dateGetter('Milliseconds', 3),
   EEEE: dateStrGetter('Day'),
@@ -20637,9 +20637,9 @@ var uppercaseFilter = valueFn(uppercase);
  * {@link ng.$filter} for more information about Angular arrays.
  *
  * @param {Array|string} input Source array or string to be limited.
- * @param {string|number} limit The length of the returned array or string. If the `limit` number 
+ * @param {string|number} limit The length of the returned array or string. If the `limit` number
  *     is positive, `limit` number of items from the beginning of the source array/string are copied.
- *     If the number is negative, `limit` number  of items from the end of the source array/string 
+ *     If the number is negative, `limit` number  of items from the end of the source array/string
  *     are copied. The `limit` will be trimmed if it exceeds `array.length`
  * @returns {Array|string} A new sub-array or substring of length `limit` or less if input array
  *     had less than `limit` elements.
@@ -20689,7 +20689,7 @@ var uppercaseFilter = valueFn(uppercase);
 function limitToFilter(){
   return function(input, limit) {
     if (!isArray(input) && !isString(input)) return input;
-    
+
     limit = int(limit);
 
     if (isString(input)) {
@@ -27907,4 +27907,4 @@ if (config.autotest) {
 })(window, document);
 
 angular.element(document).find('head').append('<style type="text/css">@charset "UTF-8";\n\n[ng\\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],\n.ng-cloak, .x-ng-cloak {\n  display: none;\n}\n\nng\\:form {\n  display: block;\n}\n</style>');
-angular.element(document).find('head').append('<style type="text/css">@charset "UTF-8";\n/* CSS Document */\n\n/** Structure */\nbody {\n  font-family: Arial, sans-serif;\n  margin: 0;\n  font-size: 14px;\n}\n\n#system-error {\n  font-size: 1.5em;\n  text-align: center;\n}\n\n#json, #xml {\n  display: none;\n}\n\n#header {\n  position: fixed;\n  width: 100%;\n}\n\n#specs {\n  padding-top: 50px;\n}\n\n#header .angular {\n  font-family: Courier New, monospace;\n  font-weight: bold;\n}\n\n#header h1 {\n  font-weight: normal;\n  float: left;\n  font-size: 30px;\n  line-height: 30px;\n  margin: 0;\n  padding: 10px 10px;\n  height: 30px;\n}\n\n#application h2,\n#specs h2 {\n  margin: 0;\n  padding: 0.5em;\n  font-size: 1.1em;\n}\n\n#status-legend {\n  margin-top: 10px;\n  margin-right: 10px;\n}\n\n#header,\n#application,\n.test-info,\n.test-actions li {\n  overflow: hidden;\n}\n\n#application {\n  margin: 10px;\n}\n\n#application iframe {\n  width: 100%;\n  height: 758px;\n}\n\n#application .popout {\n  float: right;\n}\n\n#application iframe {\n  border: none;\n}\n\n.tests li,\n.test-actions li,\n.test-it li,\n.test-it ol,\n.status-display {\n  list-style-type: none;\n}\n\n.tests,\n.test-it ol,\n.status-display {\n  margin: 0;\n  padding: 0;\n}\n\n.test-info {\n  margin-left: 1em;\n  margin-top: 0.5em;\n  border-radius: 8px 0 0 8px;\n  -webkit-border-radius: 8px 0 0 8px;\n  -moz-border-radius: 8px 0 0 8px;\n  cursor: pointer;\n}\n\n.test-info:hover .test-name {\n  text-decoration: underline;\n}\n\n.test-info .closed:before {\n  content: \'\\25b8\\00A0\';\n}\n\n.test-info .open:before {\n  content: \'\\25be\\00A0\';\n  font-weight: bold;\n}\n\n.test-it ol {\n  margin-left: 2.5em;\n}\n\n.status-display,\n.status-display li {\n  float: right;\n}\n\n.status-display li {\n  padding: 5px 10px;\n}\n\n.timer-result,\n.test-title {\n  display: inline-block;\n  margin: 0;\n  padding: 4px;\n}\n\n.test-actions .test-title,\n.test-actions .test-result {\n  display: table-cell;\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n}\n\n.test-actions {\n  display: table;\n}\n\n.test-actions li {\n  display: table-row;\n}\n\n.timer-result {\n  width: 4em;\n  padding: 0 10px;\n  text-align: right;\n  font-family: monospace;\n}\n\n.test-it pre,\n.test-actions pre {\n  clear: left;\n  color: black;\n  margin-left: 6em;\n}\n\n.test-describe {\n  padding-bottom: 0.5em;\n}\n\n.test-describe .test-describe {\n  margin: 5px 5px 10px 2em;\n}\n\n.test-actions .status-pending .test-title:before {\n  content: \'\\00bb\\00A0\';\n}\n\n.scrollpane {\n   max-height: 20em;\n   overflow: auto;\n}\n\n/** Colors */\n\n#header {\n  background-color: #F2C200;\n}\n\n#specs h2 {\n  border-top: 2px solid #BABAD1;\n}\n\n#specs h2,\n#application h2 {\n  background-color: #efefef;\n}\n\n#application {\n  border: 1px solid #BABAD1;\n}\n\n.test-describe .test-describe {\n  border-left: 1px solid #BABAD1;\n  border-right: 1px solid #BABAD1;\n  border-bottom: 1px solid #BABAD1;\n}\n\n.status-display {\n  border: 1px solid #777;\n}\n\n.status-display .status-pending,\n.status-pending .test-info {\n  background-color: #F9EEBC;\n}\n\n.status-display .status-success,\n.status-success .test-info {\n  background-color: #B1D7A1;\n}\n\n.status-display .status-failure,\n.status-failure .test-info {\n  background-color: #FF8286;\n}\n\n.status-display .status-error,\n.status-error .test-info {\n  background-color: black;\n  color: white;\n}\n\n.test-actions .status-success .test-title {\n  color: #30B30A;\n}\n\n.test-actions .status-failure .test-title {\n  color: #DF0000;\n}\n\n.test-actions .status-error .test-title {\n  color: black;\n}\n\n.test-actions .timer-result {\n  color: #888;\n}\n</style>');
+angular.element(document).find('head').append("<style type='text/css'>@charset \"UTF-8\";\nbody {\n  font-family: Arial, sans-serif;\n  margin: 0;\n  font-size: 14px;\n}\n\n#system-error {\n  font-size: 1em;\n  text-align: center;\n}\n\n#json, #xml {\n  display: none;\n}\n\n#header .angular {\n  font-family: Courier New, monospace;\n  font-weight: bold;\n}\n\n#header h1 {\n  font-weight: normal;\n  font-size: 1em;\n  margin: 0;\n  padding: 5px;\n}\n\n#application h2,\n#specs h2 {\n  margin: 0;\n  font-size: 1em;\n}\n\n#status-legend {\n  width: 100%\n}\n\n#header,\n#application,\n.test-info,\n.test-actions li {\n  overflow: hidden;\n}\n\n#application {\n}\n\n#application iframe {\n  width: 100%;\n  height: 100%;\n}\n\n#application .popout {\n  float: right;\n}\n\n#application iframe {\n  border: none;\n}\n\n.tests li,\n.test-actions li,\n.test-it li,\n.test-it ol,\n.status-display {\n  list-style-type: none;\n}\n\n.tests,\n.test-it ol,\n.status-display {\n  margin: 0;\n  padding: 0;\n}\n\n.test-info {\n  margin-left: 1em;\n  margin-top: 0.5em;\n  border-radius: 8px 0 0 8px;\n  -webkit-border-radius: 8px 0 0 8px;\n  -moz-border-radius: 8px 0 0 8px;\n  cursor: pointer;\n}\n\n.test-info:hover .test-name {\n  text-decoration: underline;\n}\n\n.test-info .closed:before {\n  content: '\\25b8\\00A0';\n}\n\n.test-info .open:before {\n  content: '\\25be\\00A0';\n  font-weight: bold;\n}\n\n.test-it ol {\n  margin-left: 2.5em;\n}\n\n.status-display,\n.status-display li {\n  float: left;\n}\n\n.status-display li {\n  padding: 5px 10px;\n}\n\n.timer-result,\n.test-title {\n  display: inline-block;\n  margin: 0;\n  padding: 4px;\n}\n\n.test-actions .test-title,\n.test-actions .test-result {\n  display: table-cell;\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n}\n\n.test-actions {\n  display: table;\n}\n\n.test-actions li {\n  display: table-row;\n}\n\n.timer-result {\n  width: 4em;\n  padding: 0 10px;\n  text-align: right;\n  font-family: monospace;\n}\n\n.test-it pre,\n.test-actions pre {\n  clear: left;\n  color: black;\n  margin-left: 6em;\n}\n\n.test-describe {\n  padding-bottom: 0.5em;\n}\n\n.test-describe .test-describe {\n  margin: 5px 5px 10px 2em;\n}\n\n.test-actions .status-pending .test-title:before {\n  content: '\\00bb\\00A0';\n}\n\n.scrollpane {\n   overflow: auto;\n }\n\n\n#header {\n  background-color: #F2C200;\n}\n\n#specs h2 {\n  border-top: 2px solid #BABAD1;\n}\n\n#specs h2,\n#application h2 {\n  background-color: #efefef;\n}\n\n#application h2 {\n  height: 26px;\n  line-height: 26px;\n  padding-left: 10px;\n}\n\n.test-describe .test-describe {\n  border-left: 1px solid #BABAD1;\n  border-right: 1px solid #BABAD1;\n  border-bottom: 1px solid #BABAD1;\n}\n\n.status-display {\n  border: 1px solid #777;\n}\n\n.status-display .status-pending,\n.status-pending .test-info {\n  background-color: #F9EEBC;\n}\n\n.status-display .status-success,\n.status-success .test-info {\n  background-color: #B1D7A1;\n}\n\n.status-display .status-failure,\n.status-failure .test-info {\n  background-color: #FF8286;\n}\n\n.status-display .status-error,\n.status-error .test-info {\n  background-color: black;\n  color: white;\n}\n\n.test-actions .status-success .test-title {\n  color: #30B30A;\n}\n\n.test-actions .status-failure .test-title {\n  color: #DF0000;\n}\n\n.test-actions .status-error .test-title {\n  color: black;\n}\n\n.test-actions .timer-result {\n  color: #888;\n}\n\n#test-frames {\n  position: absolute;\n  top: 26px;\n  right: 0;\n  left: 0;\n  bottom: 0;\n}\n\n#application {\n  position: absolute;\n  top: 0;\n  right: 0;\n  left: 300px;\n  bottom: 0;\n}\n\n#html {\n  border-right: 1px solid #000;\n  position: absolute;\n  top: 0;\n  width: 299px;\n  left: 0;\n  bottom: 0;\n}\n</style>");
